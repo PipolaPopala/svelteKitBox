@@ -15,7 +15,7 @@
 		await signOut(auth);
 		goto('/');
 	}
-	$: user = $page.data?.user;
+	const user = $page.data?.user;
 </script>
 
 <header class="sticky left-0 top-0 flex items-center justify-between bg-background">
@@ -24,18 +24,12 @@
 		<ToggleMode />
 		{#if user}
 			<Avatar.Root>
-				{#await user}
-					<Avatar.Fallback>load</Avatar.Fallback>
-				{:then userData}
-					{#if userData.profilePic}
-						<Avatar.Image src={userData.profilePic} alt="user avatar" />
-					{:else}
-						<Avatar.Fallback>No image</Avatar.Fallback>
-					{/if}
-				{:catch err}
-				<Avatar.Fallback>error</Avatar.Fallback>
-				{console.error(err.message)}
-				{/await}
+				<Avatar.Fallback>...</Avatar.Fallback>
+				{#if user.profilePic}
+					<Avatar.Image src={user.profilePic} alt="user avatar" />
+				{:else}
+					<Avatar.Fallback>...</Avatar.Fallback>
+				{/if}
 			</Avatar.Root>
 			<Button on:click={logOut} variant="ghost">Sign out</Button>
 		{/if}

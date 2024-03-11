@@ -1,13 +1,22 @@
 <script lang="ts">
 	import * as Table from '$lib/components/ui/table';
-	let files = [1];
+	import type { TFile } from './types';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import { Trash } from 'lucide-svelte';
+	import prettyBytes from 'pretty-bytes';
+	export let files: TFile[];
+	export let count: number;
+	function getFileType(mine: string) {
+		const type = mine.split('/'[1]);
+		return type;
+	}
 </script>
 
 <div class="round-mb my-10 border shadow-md">
-	<h1 class="py-5 pl-5 font-medium capitalize">files(5)</h1>
+	<h1 class="py-5 pl-5 font-medium capitalize">files({count})</h1>
 	{#if files.length === 0}
-		<div class="flex items-center justify-center h-[200px]">
-			<p class="text-gray-400">no files uploaded yet</p>
+		<div class="flex h-[200px] items-center justify-center">
+			<p class="text-gray-400">No files uploaded yet</p>
 		</div>
 	{:else}
 		<Table.Root>
@@ -22,12 +31,18 @@
 				</Table.Row>
 			</Table.Header>
 			<Table.Body>
-				{#each { length: 5 } as _}
+				{#each files as { downloadUrl, fileName, size, timestamp, type }}
 					<Table.Row>
-						<Table.Cell class="font-medium">{'invoice.invoice'}</Table.Cell>
-						<Table.Cell>{'invoice.paymentStatus'}</Table.Cell>
-						<Table.Cell>{'invoice.paymentMethod'}</Table.Cell>
-						<Table.Cell class="text-right">{'invoice.totalAmount'}</Table.Cell>
+						<Table.Cell class="font-medium">{getFileType(type)}</Table.Cell>
+						<Table.Cell>{fileName}</Table.Cell>
+						<Table.Cell>{prettyBytes(size)}</Table.Cell>
+						<Table.Cell>{timestamp.toDateString()}</Table.Cell>
+						<Table.Cell>
+							<Button download target="_blank" variant="link" href={downloadUrl}>download</Button>
+						</Table.Cell>
+						<Table.Cell>
+							<Button size="icon" variant="outline"><Trash /></Button>
+						</Table.Cell>
 					</Table.Row>
 				{/each}
 			</Table.Body>
