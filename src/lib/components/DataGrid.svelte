@@ -9,7 +9,7 @@
 		<div class="flex items-center justify-center h-[200px]">
 			<p class="text-gray-400">no files uploaded yet</p>
 		</div>
-	{:else}s
+	{:else}
 		<Table.Root>
 			<Table.Header>
 				<Table.Row>
