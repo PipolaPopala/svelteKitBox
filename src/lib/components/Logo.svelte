@@ -16,5 +16,5 @@
 			></path></svg
 		>
 	</span>
-	<p class="font-bold capitalize text-xl">svelteKitBox</p>
+	<p class="font-bold capitalize text-xl">svelteKitBoxx</p>
 </a>
