@@ -1,12 +1,16 @@
 <script lang="ts">
 	import * as Table from '$lib/components/ui/table';
-	import type { TFile } from './types';
+	import type { TFile } from '../types';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { Trash } from 'lucide-svelte';
 	import prettyBytes from 'pretty-bytes';
+	import { renameModalStore } from '$lib/stores/modalStore';
+	import RenameModal from './modal/RenameModal.svelte';
+	import { idStore } from '$lib/stores/idStore';
 	export let files: TFile[];
 	export let count: number;
 	function getFileType(mine: string) {
+		'image/png';
 		const type = mine.split('/'[1]);
 		return type;
 	}
@@ -31,10 +35,18 @@
 				</Table.Row>
 			</Table.Header>
 			<Table.Body>
-				{#each files as { downloadUrl, fileName, size, timestamp, type }}
+				{#each files as { downloadUrl, fileName, size, timestamp, type, id }}
 					<Table.Row>
 						<Table.Cell class="font-medium">{getFileType(type)}</Table.Cell>
-						<Table.Cell>{fileName}</Table.Cell>
+						<Table.Cell>
+							<Button
+								variant="link"
+								on:click={() => {
+									idStore.set(id);
+									renameModalStore.setTrue();
+								}}>{fileName}</Button
+							>
+						</Table.Cell>
 						<Table.Cell>{prettyBytes(size)}</Table.Cell>
 						<Table.Cell>{timestamp.toDateString()}</Table.Cell>
 						<Table.Cell>
@@ -49,3 +61,5 @@
 		</Table.Root>
 	{/if}
 </div>
+
+<RenameModal />
