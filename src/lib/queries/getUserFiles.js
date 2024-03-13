@@ -1,11 +1,11 @@
-import type { TFile } from "$lib/components/types";
+// @ts-nocheck
 import { db } from "$lib/firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
-export async function getUserFiles(uid: string) {
-  const q = query(collection(db, 'files'), where('uid', '==', uid))
-  const querySnapshot = await getDocs(q)
-  const results: TFile[] = []
+export async function getUserFiles(uid) {
+  const q = query(collection(db, 'files'), where('uid', '==', uid));
+  const querySnapshot = await getDocs(q);
+  const results = [];
   querySnapshot.forEach(doc => {
     results.push({
       fileName: doc.data().fileName,
@@ -15,7 +15,7 @@ export async function getUserFiles(uid: string) {
       downloadUrl: doc.data().downloadUrl,
       timestamp: doc.data().timestamp.toDate(),
       id: doc.id
-    })
-  })
-  return results
-}
+    });
+  });
+  return results;
+};

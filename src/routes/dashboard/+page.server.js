@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { fail, redirect } from "@sveltejs/kit";
 import { getUser } from "$lib/queries/getUser";
 import { getUserFiles } from "$lib/queries/getUserFiles";
@@ -22,13 +23,13 @@ export const load = async ({ locals }) => {
 export const actions = {
   editFileName: async ({ request }) => {
     const data = await request.formData();
-    const fileName = data.get('fileName') as string;
-    const id = data.get('id') as string;
+    const fileName = data.get('fileName');
+    const id = data.get('id');
     try {
       await editFileName(id, fileName);
       return { editFileNameSuccess: 'File name updated successfully' }
     } catch (err) {
-      const errorMessage = (err as Error).message
+      const errorMessage = err.message
       return fail(422, {
         editFileNameError: errorMessage
       })

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { adminAuth } from "$lib/server/firebaseAdmin";
 import { error, json } from "@sveltejs/kit";
 
